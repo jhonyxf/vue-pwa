@@ -20,4 +20,10 @@ self.addEventListener('activate',function(e){
 })
 self.addEventListener('fetch',function(e){
     console.log('[ServiceWorker] Fetch', e.request.url);
+    e.respondWith(
+        caches.match(e.request).then(function(response){
+            console.log('[ServiceWorker] Fetch no final', e.request.url);
+            return response || fetch(e.request);
+        })
+    );
 })
